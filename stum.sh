@@ -36,7 +36,7 @@ function cask_install {
   for i in ${CASK//,/ }
     do
         echo "Brew cask installing $i"
-        sudo brew cask install $i
+        brew cask install $i
     done
 }
 
@@ -46,7 +46,15 @@ function cask_update {
   for i in ${CASK//,/ }
     do
         echo "Brew cask updating $i"
-        sudo brew cask update $i
+        brew cask update $i
+    done
+}
+
+function apm_install {
+  for i in ${APM//,/ }
+    do
+        echo "Apm installing $i"
+        apm cask install $i
     done
 }
 
@@ -68,10 +76,15 @@ EOF
 else
     case "$1" in
         install)
-            install && brew_install && cask_install
+            install
+            brew_install
+            cask_install
+            apm_install
             ;;
         update)
-            brew_update && cask_update
+            brew_update
+            cask_update
+            apm update
             ;;
         *)
             echo "Unknown command"
