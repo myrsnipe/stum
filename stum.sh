@@ -1,9 +1,11 @@
 #!/bin/bash
 set -e
 
-BREW="brew-cask,ffmpeg,git,imagemagick,jp2a,maven,node,wget"
-CASK="java,atom,bittorrent,clion,divvy,google-chrome,hipchat,intellij-idea,keeweb,licecap,minerva,nanobox,obs,r-name,scroll-reverser,skype,spotify,steam,visual-studio-code,vlc,webstorm,yacreader"
-APM="atom-beautify,atom-typescript,auto-indent,color-picker,editorconfiggit-plus,highlight-line,highlight-selected,jumpy,language-actionscript3,language-batch,linter,linter-eslint,linter-jsonlint,minimap,minimap-color-highlight,minimap-git-diff,minimap-highlight-selected,pretty-json,sort-lines,toggle-quotes,tree-view-git-status,wordcount"
+BREW="homebrew/completions/brew-cask-completion,ffmpeg,git,bash-completion,imagemagick,jp2a,mas,node,wget"
+CASK="java,atom,bittorrent,clion,divvy,google-chrome,hipchat,intellij-idea,keeweb,licecap,minerva,nanobox,obs,scroll-reverser,skype,spotify,steam,toggldesktop,visual-studio-code,vlc,webstorm,yacreader"
+CASK_POST_BREW="maven"
+APM="atom-beautify,atom-typescript,auto-indent,color-picker,editorconfig,git-plus,highlight-line,highlight-selected,jumpy,language-actionscript3,language-batch,linter,linter-eslint,linter-jsonlint,minimap,minimap-git-diff,minimap-highlight-selected,pretty-json,sort-lines,toggle-quotes,tree-view-git-status,wordcount"
+MAS="413857545,455970963,497799835,451444120"
 
 function install {
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -12,10 +14,10 @@ function install {
 
 function brew_install {
   brew update
+  brew tap caskroom/cask
 
   for i in ${BREW//,/ }
     do
-        echo "Brew installing $i"
         brew install $i
     done
 }
@@ -25,7 +27,6 @@ function brew_update {
 
   for i in ${BREW//,/ }
     do
-        echo "Brew updating $i"
         brew upgrade $i
     done
 }
@@ -35,7 +36,6 @@ function cask_install {
 
   for i in ${CASK//,/ }
     do
-        echo "Brew cask installing $i"
         brew cask install $i
     done
 }
@@ -45,7 +45,6 @@ function cask_update {
 
   for i in ${CASK//,/ }
     do
-        echo "Brew cask updating $i"
         brew cask update $i
     done
 }
@@ -53,8 +52,7 @@ function cask_update {
 function apm_install {
   for i in ${APM//,/ }
     do
-        echo "Apm installing $i"
-        apm cask install $i
+        apm install $i
     done
 }
 
@@ -76,7 +74,7 @@ EOF
 else
     case "$1" in
         install)
-            install
+            #install
             brew_install
             cask_install
             apm_install
